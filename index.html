@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entregas ITEMS</title>
+
+<!-- Ícono para la pantalla de inicio -->
+<link rel="apple-touch-icon" href="icono-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icono-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Entregas ITEMS">
+<meta name="theme-color" content="#2e2e45">
+
+<script>
+  /* =====================================================================
+     PEGÁ AQUÍ EL ENLACE DE LA APP DE PILOTOS (el que termina en /exec)
+     ===================================================================== */
+  var APP_URL = "PEGAR_AQUI_EL_ENLACE_DE_LA_APP_DE_PILOTOS";
+
+  // Si se abrió desde el ícono de la pantalla de inicio, entra directo a la app
+  var desdeIcono = window.navigator.standalone === true || /[?&]app=1\b/.test(location.search);
+  if (desdeIcono && /^https:\/\/script\.google\.com\//.test(APP_URL)) location.replace(APP_URL);
+</script>
+
+<style>
+  :root { --brand: #2e2e45; --mark: #36cf12; --muted: #5b6676; --line: #dfe3e8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #eef1f4; color: #16212e; }
+  .stripe { height: 6px; background: repeating-linear-gradient(-45deg, var(--mark) 0 14px, var(--brand) 14px 28px); }
+  main { max-width: 440px; margin: 0 auto; padding: 28px 20px 40px; display: grid; gap: 18px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px 20px; display: grid; gap: 14px; justify-items: center; text-align: center; }
+  .card img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+  h1 { margin: 4px 0 0; font-size: 1.5rem; }
+  p { margin: 0; color: var(--muted); line-height: 1.45; }
+  .btn { display: block; width: 100%; text-align: center; text-decoration: none; background: var(--brand); color: #fff; font-weight: 700; font-size: 1.1rem; padding: 16px; border-radius: 12px; }
+  .pasos { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+  .pasos h2 { font-size: 1rem; margin: 0 0 10px; }
+  .pasos ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: #16212e; }
+  .pasos b { color: var(--brand); }
+  .oculto { display: none; }
+  .aviso { background: #fdecea; color: #b42318; border-radius: 10px; padding: 12px; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="stripe"></div>
+<main>
+  <section class="card">
+    <img src="icono-180.png" alt="ITEMS">
+    <h1>Entregas ITEMS</h1>
+    <p>App de entregas para pilotos.</p>
+    <a class="btn" id="abrir" href="#">Abrir app de entregas</a>
+    <div class="aviso oculto" id="falta">Falta configurar el enlace de la app en este archivo.</div>
+  </section>
+
+  <section class="pasos" id="p-iphone">
+    <h2>Agregarla a la pantalla de inicio (iPhone)</h2>
+    <ol>
+      <li>Abrí esta página en <b>Safari</b>.</li>
+      <li>Tocá el botón <b>Compartir</b> (el cuadro con la flecha hacia arriba).</li>
+      <li>Elegí <b>"Agregar a pantalla de inicio"</b> y tocá <b>Agregar</b>.</li>
+    </ol>
+  </section>
+
+  <section class="pasos" id="p-android">
+    <h2>Agregarla a la pantalla de inicio (Android)</h2>
+    <ol>
+      <li>Abrí esta página en <b>Chrome</b>.</li>
+      <li>Tocá los <b>tres puntos ⋮</b> arriba a la derecha.</li>
+      <li>Elegí <b>"Agregar a la pantalla principal"</b> (o "Instalar app") y confirmá.</li>
+    </ol>
+  </section>
+</main>
+<script>
+  var ok = /^https:\/\/script\.google\.com\//.test(APP_URL);
+  document.getElementById("abrir").href = ok ? APP_URL : "#";
+  if (!ok) document.getElementById("falta").classList.remove("oculto");
+  // Mostrar solo las instrucciones del teléfono que se está usando
+  var ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/i.test(ua)) document.getElementById("p-android").classList.add("oculto");
+  else if (/Android/i.test(ua)) document.getElementById("p-iphone").classList.add("oculto");
+</script>
+</body>
+</html>

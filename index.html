@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Entregas ITEMS</title>
 
 <!-- Ícono para la pantalla de inicio -->
@@ -11,17 +11,21 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Entregas ITEMS">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2e2e45">
 
 <script>
   /* =====================================================================
      PEGÁ AQUÍ EL ENLACE DE LA APP DE PILOTOS (el que termina en /exec)
      ===================================================================== */
-  var APP_URL = "https://script.google.com/macros/s/AKfycbwWglH5KyaRLx5umcuSA7K4UkcqcqLcSN-zX6IE833EyFSekd3d7EuG_h2UzMvutEiWlw/exec";
+  var APP_URL = "PEGAR_AQUI_EL_ENLACE_DE_LA_APP_DE_PILOTOS";
 
-  // Si se abrió desde el ícono de la pantalla de inicio, entra directo a la app
-  var desdeIcono = window.navigator.standalone === true || /[?&]app=1\b/.test(location.search);
-  if (desdeIcono && /^https:\/\/script\.google\.com\//.test(APP_URL)) location.replace(APP_URL);
+  // Si se abrió desde el ícono de la pantalla de inicio, la app se muestra a pantalla completa (sin barras del navegador)
+  var desdeIcono = window.navigator.standalone === true || /[?&]app=1\b/.test(location.search) ||
+    (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+  var APP_OK = /^https:\/\/script\.google\.com\//.test(APP_URL);
+  if (desdeIcono && APP_OK) document.documentElement.className = "modo-app";
 </script>
 
 <style>
@@ -41,9 +45,15 @@
   .pasos b { color: var(--brand); }
   .oculto { display: none; }
   .aviso { background: #fdecea; color: #b42318; border-radius: 10px; padding: 12px; font-size: .9rem; }
+  /* Modo app: la app de pilotos ocupa toda la pantalla */
+  #app { display: none; }
+  .modo-app, .modo-app body { height: 100%; background: #2e2e45; overflow: hidden; }
+  .modo-app .stripe, .modo-app main { display: none; }
+  .modo-app #app { display: block; position: fixed; left: 0; right: 0; bottom: 0; top: env(safe-area-inset-top, 0px); width: 100%; height: calc(100% - env(safe-area-inset-top, 0px)); border: 0; }
 </style>
 </head>
 <body>
+<iframe id="app" title="Entregas ITEMS" allow="geolocation"></iframe>
 <div class="stripe"></div>
 <main>
   <section class="card">
@@ -73,7 +83,8 @@
   </section>
 </main>
 <script>
-  var ok = /^https:\/\/script\.google\.com\//.test(APP_URL);
+  var ok = APP_OK;
+  if (document.documentElement.className === "modo-app") document.getElementById("app").src = APP_URL;
   document.getElementById("abrir").href = ok ? APP_URL : "#";
   if (!ok) document.getElementById("falta").classList.remove("oculto");
   // Mostrar solo las instrucciones del teléfono que se está usando

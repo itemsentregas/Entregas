@@ -2,7 +2,7 @@
   "name": "Entregas ITEMS",
   "short_name": "Entregas ITEMS",
   "start_url": "./?app=1",
-  "display": "browser",
+  "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2e2e45",
   "icons": [
